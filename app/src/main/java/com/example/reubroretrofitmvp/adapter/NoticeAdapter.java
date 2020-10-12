@@ -6,7 +6,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.RadioButton;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
@@ -21,8 +23,10 @@ import androidx.recyclerview.widget.RecyclerView;
 
 public class NoticeAdapter extends RecyclerView.Adapter<NoticeAdapter.NoticeViewHolder> {
     Context context;
+    private int lastSelectedPosition = -1;
 
-        public List<Notice> dataList;
+
+    public List<Notice> dataList;
 
         public NoticeAdapter(List<Notice> dataList, RecyclerItemClickListener recyclerItemClickListener) {
             this.dataList = dataList;
@@ -34,6 +38,8 @@ public class NoticeAdapter extends RecyclerView.Adapter<NoticeAdapter.NoticeView
             View view = layoutInflater.inflate(R.layout.single_view_row, parent, false);
             return new NoticeViewHolder(view);
         }
+
+
 
         @SuppressLint("SetTextI18n")
         @Override
@@ -49,6 +55,7 @@ public class NoticeAdapter extends RecyclerView.Adapter<NoticeAdapter.NoticeView
 
             Picasso.with(holder.imageView.getContext()).load(dataList.get(position).getName().getImage()).resize(50, 50).into(holder.imageView);
 
+            holder.id.setChecked(lastSelectedPosition == position);
 
 
         }
@@ -59,8 +66,8 @@ public class NoticeAdapter extends RecyclerView.Adapter<NoticeAdapter.NoticeView
         }
 
         class NoticeViewHolder extends RecyclerView.ViewHolder {
-
-            TextView id, name, email, gender, mobile, home, office;
+            RadioButton id;
+            TextView name, email, gender, mobile, home, office;
             ImageView imageView;
 
             NoticeViewHolder(View itemView) {
@@ -74,6 +81,21 @@ public class NoticeAdapter extends RecyclerView.Adapter<NoticeAdapter.NoticeView
                 office =  itemView.findViewById(R.id.office);
                 imageView=itemView.findViewById(R.id.imgView);
 
+
+
+                View.OnClickListener listener = new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        lastSelectedPosition = getAdapterPosition();
+                        notifyDataSetChanged();
+                       // Toast.makeText(context, "" + list.get(position).getName() + "\n" + list.get(position).getLocation(), Toast.LENGTH_SHORT).show();
+
+
+                    }
+                };
+                id.setOnClickListener(listener);
+                itemView.setOnClickListener(listener);
             }
         }
-    }
+
+}
