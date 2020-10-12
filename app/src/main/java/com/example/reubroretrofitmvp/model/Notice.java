@@ -4,12 +4,13 @@ import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 public class Notice {
+
     @SerializedName("id")
     @Expose
     private String id;
     @SerializedName("name")
     @Expose
-    private String name;
+    private Name name;
     @SerializedName("email")
     @Expose
     private String email;
@@ -28,11 +29,11 @@ public class Notice {
         this.id = id;
     }
 
-    public String getName() {
+    public Name getName() {
         return name;
     }
 
-    public void setName(String name) {
+    public void setName(Name name) {
         this.name = name;
     }
 

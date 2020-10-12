@@ -25,7 +25,7 @@ import retrofit2.http.QueryMap;
 
 public interface GetNoticeDataService
 {
-    @GET("b8b15165-0686-47f3-b55c-340bce926dc4")
+    @GET("f1d10847-c5de-43dc-99c3-960b74ace207")
         // Observable<List<Users>> getUsers();
     Call<NoticeList> getNoticeData();
 }

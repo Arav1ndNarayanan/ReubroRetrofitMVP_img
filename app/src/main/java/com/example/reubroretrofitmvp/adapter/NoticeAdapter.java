@@ -1,21 +1,26 @@
 package com.example.reubroretrofitmvp.adapter;
 
 import android.annotation.SuppressLint;
+import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 import com.example.reubroretrofitmvp.R;
 import com.example.reubroretrofitmvp.activity.RecyclerItemClickListener;
 import com.example.reubroretrofitmvp.model.Notice;
+import com.squareup.picasso.Picasso;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import androidx.recyclerview.widget.RecyclerView;
 
 public class NoticeAdapter extends RecyclerView.Adapter<NoticeAdapter.NoticeViewHolder> {
+    Context context;
 
         public List<Notice> dataList;
 
@@ -30,15 +35,21 @@ public class NoticeAdapter extends RecyclerView.Adapter<NoticeAdapter.NoticeView
             return new NoticeViewHolder(view);
         }
 
+        @SuppressLint("SetTextI18n")
         @Override
         public void onBindViewHolder(NoticeViewHolder holder, int position) {
             holder.id.setText(dataList.get(position).getId());
-            holder.name.setText(dataList.get(position).getName());
+            holder.name.setText(dataList.get(position).getName().getFirstName()+" "+dataList.get(position).getName().getLastName());
             holder.email.setText(dataList.get(position).getEmail());
             holder.gender.setText(dataList.get(position).getGender());
             holder.mobile.setText(dataList.get(position).getContact().getMobile());
             holder.home.setText(dataList.get(position).getContact().getHome());
             holder.office.setText(dataList.get(position).getContact().getOffice());
+
+
+            Picasso.with(holder.imageView.getContext()).load(dataList.get(position).getName().getImage()).resize(50, 50).into(holder.imageView);
+
+
 
         }
 
@@ -50,6 +61,7 @@ public class NoticeAdapter extends RecyclerView.Adapter<NoticeAdapter.NoticeView
         class NoticeViewHolder extends RecyclerView.ViewHolder {
 
             TextView id, name, email, gender, mobile, home, office;
+            ImageView imageView;
 
             NoticeViewHolder(View itemView) {
                 super(itemView);
@@ -60,6 +72,7 @@ public class NoticeAdapter extends RecyclerView.Adapter<NoticeAdapter.NoticeView
                 mobile =  itemView.findViewById(R.id.mobile);
                 home =  itemView.findViewById(R.id.home);
                 office =  itemView.findViewById(R.id.office);
+                imageView=itemView.findViewById(R.id.imgView);
 
             }
         }
