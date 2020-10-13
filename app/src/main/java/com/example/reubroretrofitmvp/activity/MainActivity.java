@@ -1,6 +1,7 @@
 package com.example.reubroretrofitmvp.activity;
 
-import androidx.appcompat.app.AppCompatActivity;
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -19,13 +20,14 @@ import com.example.reubroretrofitmvp.adapter.NoticeAdapter;
 import com.example.reubroretrofitmvp.model.Notice;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class MainActivity extends Activity implements MainContract.MainView {
 
     private ProgressBar progressBar;
     private RecyclerView recyclerView;
-
     private MainContract.presenter presenter;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -89,6 +91,8 @@ public class MainActivity extends Activity implements MainContract.MainView {
     };
 
 
+
+
     @Override
     public void showProgress() {
         progressBar.setVisibility(View.VISIBLE);
@@ -104,8 +108,24 @@ public class MainActivity extends Activity implements MainContract.MainView {
     @Override
     public void setDataToRecyclerView(ArrayList<Notice> noticeArrayList) {
 
-        NoticeAdapter adapter = new NoticeAdapter(noticeArrayList , recyclerItemClickListener);
+        final NoticeAdapter adapter = new NoticeAdapter(noticeArrayList , recyclerItemClickListener);
         recyclerView.setAdapter(adapter);
+
+        new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(0,ItemTouchHelper.LEFT) {
+            @Override
+            public boolean onMove(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, @NonNull RecyclerView.ViewHolder target) {
+                return false;
+            }
+
+            @Override
+            public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
+                //noticeList.remove(viewHolder.getAdapterPosition());
+                adapter.dataList.remove(viewHolder.getAdapterPosition());
+                adapter.notifyDataSetChanged();
+
+
+            }
+        }).attachToRecyclerView(recyclerView);
 
     }
 
@@ -146,6 +166,7 @@ public class MainActivity extends Activity implements MainContract.MainView {
 
         return super.onOptionsItemSelected(item);
     }
+
 
 
 }

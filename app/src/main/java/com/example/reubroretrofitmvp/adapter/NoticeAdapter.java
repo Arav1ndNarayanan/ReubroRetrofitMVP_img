@@ -1,7 +1,12 @@
 package com.example.reubroretrofitmvp.adapter;
 
 import android.annotation.SuppressLint;
+import android.app.ListActivity;
+import android.content.ClipData;
 import android.content.Context;
+import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,10 +20,13 @@ import com.bumptech.glide.request.RequestOptions;
 import com.example.reubroretrofitmvp.R;
 import com.example.reubroretrofitmvp.activity.RecyclerItemClickListener;
 import com.example.reubroretrofitmvp.model.Notice;
+import com.example.reubroretrofitmvp.model.NoticeList;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.RecyclerView;
 
 public class NoticeAdapter extends RecyclerView.Adapter<NoticeAdapter.NoticeViewHolder> {
@@ -30,13 +38,17 @@ public class NoticeAdapter extends RecyclerView.Adapter<NoticeAdapter.NoticeView
 
         public NoticeAdapter(List<Notice> dataList, RecyclerItemClickListener recyclerItemClickListener) {
             this.dataList = dataList;
+
+
         }
 
+        @NonNull
         @Override
         public NoticeViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
             LayoutInflater layoutInflater = LayoutInflater.from(parent.getContext());
             View view = layoutInflater.inflate(R.layout.single_view_row, parent, false);
             return new NoticeViewHolder(view);
+
         }
 
 
@@ -65,10 +77,11 @@ public class NoticeAdapter extends RecyclerView.Adapter<NoticeAdapter.NoticeView
             return dataList.size();
         }
 
-        class NoticeViewHolder extends RecyclerView.ViewHolder {
+        public class NoticeViewHolder extends RecyclerView.ViewHolder {
             RadioButton id;
             TextView name, email, gender, mobile, home, office;
             ImageView imageView;
+            RecyclerView recyclerView;
 
             NoticeViewHolder(View itemView) {
                 super(itemView);
@@ -80,6 +93,7 @@ public class NoticeAdapter extends RecyclerView.Adapter<NoticeAdapter.NoticeView
                 home =  itemView.findViewById(R.id.home);
                 office =  itemView.findViewById(R.id.office);
                 imageView=itemView.findViewById(R.id.imgView);
+                recyclerView=itemView.findViewById(R.id.recycler_view_employee_list);
 
 
 
@@ -95,7 +109,19 @@ public class NoticeAdapter extends RecyclerView.Adapter<NoticeAdapter.NoticeView
                 };
                 id.setOnClickListener(listener);
                 itemView.setOnClickListener(listener);
+
             }
         }
+
+
+
+
+    public void removeItem(int position) {
+        dataList.remove(position);
+        notifyItemRemoved(position);
+    }
+
+
+
 
 }
